@@ -4,49 +4,25 @@ import os
 from openai import OpenAI
 from PIL import Image
 
-# Load environment variables from the .env file
+# Uncomment if using environment variables from .env file
 # load_dotenv()
 
-# Initialize OpenAI client
+# Initialize OpenAI client using Streamlit secrets
 client = OpenAI(api_key=st.secrets["general"]["OPENAI_API_KEY"])
 
-# # Initialize OpenAI client using environment variable for security
-# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
 # Load the logo image
-logo = Image.open("logo.png")  # Replace with your logo path
-
-# Define your logo URLs
-LOGO_URL_LARGE = "logo.png"  # Replace with your logo path
-LOGO_URL_SMALL = "logo.png "  # Replace with your icon path
-
-st.logo(
-    LOGO_URL_LARGE,
-    link="https://streamlit.io/gallery",
-    icon_image=LOGO_URL_SMALL,
-)
-
-# Helper function for querying OpenAI's model
-def get_openai_response(prompt):
-    response = client.chat.completions.create(
-        model="gpt-4o",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=300,
-        temperature=0.5
-    )
-    return response.choices[0].message.content
+logo = Image.open("logo.png")  # Replace with the path to your logo
 
 # Streamlit App UI
 def main():
-    # Display the logo at the center
+    # Center-align the logo
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.write(' ')
+        st.write(" ")
     with col2:
-        st.image(logo,use_column_width= "auto" )
+        st.image(logo, use_column_width="auto")  # Adjusts size automatically
     with col3:
-        st.write(' ')
-    
+        st.write(" ")
 
     # Title and description
     st.title("AI-Powered Legal Document Assistant")
@@ -59,6 +35,16 @@ def main():
         "Request a Document Template",
         "Generate Legal Contract Draft"
     ))
+
+    # Helper function for querying OpenAI's model
+    def get_openai_response(prompt):
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=300,
+            temperature=0.5
+        )
+        return response.choices[0].message.content
 
     # Input fields based on option selected
     if option == "Ask a Legal Question":
