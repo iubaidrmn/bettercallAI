@@ -1,11 +1,11 @@
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import streamlit as st
 import os
 from openai import OpenAI
 from PIL import Image
 
 # Load environment variables from the .env file
-load_dotenv()
+# load_dotenv()
 
 # Initialize OpenAI client
 client = OpenAI(api_key=st.secrets["general"]["OPENAI_API_KEY"])
